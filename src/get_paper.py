@@ -79,29 +79,18 @@ def main():
             sys.exit(1)
         sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
-        citation_title = get_citation_item(content, 'citation_title')
-        citation_author = get_citation_item(content, 'citation_author')
-        citation_date = get_citation_item(content, 'citation_date')
-        citation_publication_date = get_citation_item(content, 'citation_publication_date')
-        citation_technical_report_institution = get_citation_item(content, 'citation_technical_report_institution')
-        citation_technical_report_number = get_citation_item(content, 'citation_technical_report_number')
-        citation_journal_title = get_citation_item(content, 'citation_journal_title')
-        citation_journal_issn = get_citation_item(content, 'citation_journal_issn')
-        citation_pdf_url = get_citation_item(content, 'citation_pdf_url')
-        topics = get_topics(content)
-        abstract = get_abstract(content)
         paper = get_paper(
-            citation_title,
-            citation_author,
-            citation_date,
-            citation_publication_date,
-            citation_technical_report_institution,
-            citation_technical_report_number,
-            citation_journal_title,
-            citation_journal_issn,
-            citation_pdf_url,
-            topics,
-            abstract
+            citation_title = get_citation_item(content, 'citation_title'),
+            citation_author = get_citation_item(content, 'citation_author'),
+            citation_date = get_citation_item(content, 'citation_date'),
+            citation_publication_date = get_citation_item(content, 'citation_publication_date'),
+            citation_technical_report_institution = get_citation_item(content, 'citation_technical_report_institution'),
+            citation_technical_report_number = get_citation_item(content, 'citation_technical_report_number'),
+            citation_journal_title = get_citation_item(content, 'citation_journal_title'),
+            citation_journal_issn = get_citation_item(content, 'citation_journal_issn'),
+            citation_pdf_url = get_citation_item(content, 'citation_pdf_url'),
+            topics = get_topics(content),
+            abstract = get_abstract(content)
         )
         df = pd.DataFrame([paper])
         try:
