@@ -1,6 +1,14 @@
 # About
 
-Are you an economist, or economics student, or just some random person like me who is interested in economics? Do you want to write paper, thesis, or just ramble on some stuffs but don't have any fresh ideas what should be the topics? Worry no more! Because, this repository is for you!
+Hello world :earth_asia:! Are you an economist, or economics student, or just some random person like me who is interested in economics? Do you want to write paper, thesis, or just ramble on some stuffs but don't have any fresh ideas what should be the topics? Worry no more! Because, this repository is for you!
+
+Before jumping in, consider this:
+
+```
+As of this writing, there are more than 20,000 working papers on NBER. If getting one paper takes around 30 seconds (including the required time interval imposed by NBER in its crawler policy, it takes more than a week to finish the program.
+```
+
+If you are okay with above caution, you may want to use [Heroku](https://elements.heroku.com/addons/heroku-postgresql) or other cloud service so that the program won't run on your local machine. If yes, you may need to spare $9/month to maintain the PostgreSQL database because its free edition only covers up to 10,000 rows. If you are okay with this, you may go on. However, I won't get into setting up database on Heroku since in this repository I only run on my local machine.
 
 # Clone
 
@@ -128,3 +136,7 @@ published_year |           topics           | count
            1980 | Health Economics Program   |     1
 (5 rows)
 ```
+
+# Closing
+
+If you have read up to this line, thank you for bearing with me. Hope this is useful for your purpose! :sunglasses:
