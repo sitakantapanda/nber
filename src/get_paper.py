@@ -25,12 +25,7 @@ def get_topics(content):
 
 
 def get_abstract(content):
-    abstract = content.find(
-        'p',
-        {
-            'style': 'margin-left: 40px; margin-right: 40px; text-align: justify'
-        }
-    )
+    abstract = content.find('p', {'style': 'margin-left: 40px; margin-right: 40px; text-align: justify'})
     abstract = abstract.contents[0].replace('\n', '')
 
     return abstract
