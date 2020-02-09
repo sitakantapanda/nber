@@ -5,8 +5,6 @@ from bs4 import BeautifulSoup
 from sqlalchemy import create_engine, exc
 from time import sleep
 
-ENGINE = create_engine('postgresql://localhost:5432/postgres')
-
 def get_citation_item(content, item):
     item = content.find('meta', {'name': f'{item}'})
     try:
@@ -72,12 +70,12 @@ def main():
             except Exception as error:
                 print(error)
                 attempt += 1
-                sleep(11)
+                # sleep(11)
         status_code = response.status_code
         if status_code != 200:
             assert status_code == 200, "Status code must be 200."
             sys.exit(1)
-        sleep(11)
+        # sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
             citation_title = get_citation_item(content, 'citation_title'),
@@ -93,6 +91,7 @@ def main():
             abstract = get_abstract(content)
         )
         df = pd.DataFrame([paper])
+        df.fillna('')
         try:
             df.to_sql('paper', con=ENGINE, if_exists='append', index=False)
         except exc.IntegrityError:
@@ -100,4 +99,8 @@ def main():
         i += 1
 
 if __name__ == '__main__':
+    ENGINE = create_engine('postgresql://localhost:5432/postgres')
+    CONNECTION = ENGINE.connect()
+    CONNECTION.execute("ALTER SEQUENCE paper_id_seq RESTART WITH 1")
     main()
+    CONNECTION.close()
