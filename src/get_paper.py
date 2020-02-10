@@ -26,15 +26,25 @@ def get_topics(content):
     topics = [x.get_text() for x in topics]
 
     return topics
-
-
+    
 def get_abstract(content):
     abstract = content.find('p', {'style': 'margin-left: 40px; margin-right: 40px; text-align: justify'})
     abstract = abstract.contents[0].replace('\n', '')
     if '\x00' in abstract:
         abstract = abstract.replace('\x00', '')
-        
+
     return abstract
+
+def get_also_downloaded(content):
+    try:
+        also_downloaded = content.find('table', {'class': 'also-downloaded'})
+        also_downloaded = also_downloaded.find_all('td')
+        also_downloaded = [x.find('a') for x in also_downloaded if x.find('a') != None]
+        also_downloaded = [x.attrs['href'] for x in also_downloaded]
+    except AttributeError:
+        also_downloaded = None
+
+    return also_downloaded
 
 def get_paper(
     id,
@@ -48,7 +58,8 @@ def get_paper(
     citation_journal_issn,
     citation_pdf_url,
     topics,
-    abstract
+    abstract,
+    also_downloaded
 ):
     paper = {
         'id': id,
@@ -62,7 +73,8 @@ def get_paper(
         'citation_journal_issn': citation_journal_issn,
         'citation_pdf_url': citation_pdf_url,
         'topics': topics,
-        'abstract': abstract
+        'abstract': abstract,
+        'also_downloaded': also_downloaded
     }
 
     return paper
@@ -101,9 +113,9 @@ def main():
             citation_journal_issn = get_citation_item(content, 'citation_journal_issn'),
             citation_pdf_url = get_citation_item(content, 'citation_pdf_url'),
             topics = get_topics(content),
-            abstract = get_abstract(content)
+            abstract = get_abstract(content),
+            also_downloaded = get_also_downloaded(content)
         )
-        print(paper)
         df = pd.DataFrame([paper])
         try:
             df.to_sql('paper', con=ENGINE, if_exists='append', index=False)
