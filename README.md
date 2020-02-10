@@ -20,6 +20,8 @@ git clone https://github.com/ledwindra/nber.git
 cd nber
 ```
 
+To get the latest updates, run `git pull origin master`
+
 # Permission
 
 Check its [robots.txt](http://data.nber.org/robots.txt)
@@ -146,6 +148,7 @@ collecting ... Your PostgreSQL password:
 |citation_pdf_url|varchar|Paper URL for PDF version|
 |topics|varchar|Paper topic(s). Can be more tan one. Hence it is stored as an array|
 |abstract|varchar|Paper abstract|
+|also_downloaded|varchar|Users who downloaded this paper also downloaded* these. Can be more than one. Hence it is stored as an array. The reason I use the URL because otherwise it won't catch other than the working papers. Users may also download something from `/chapters/`, which may be useful for analysis|
 
 # Explore
 
@@ -180,6 +183,17 @@ published_year |           topics           | count
            1980 | Health Economics Program   |     1
 (5 rows)
 ```
+
+# Contribute
+
+If you'd like to contribute, here's what you can do:
+
+1. Clone the repo
+2. Create new branch by running `git checkout -b [YOUR-BRANCH-NAME]`
+3. Always pull from `master` before push
+4. Make `pull request`
+
+The other way would be just contact me personally. I'm just a regular person.
 
 # Closing
 
