@@ -31,7 +31,9 @@ def get_topics(content):
 def get_abstract(content):
     abstract = content.find('p', {'style': 'margin-left: 40px; margin-right: 40px; text-align: justify'})
     abstract = abstract.contents[0].replace('\n', '')
-
+    if '\x00' in abstract:
+        abstract = abstract.replace('\x00', '')
+        
     return abstract
 
 def get_paper(
@@ -80,12 +82,12 @@ def main():
             except Exception as error:
                 print(error)
                 attempt += 1
-                sleep(11)
+                # sleep(11)
         status_code = response.status_code
         if status_code != 200:
             assert status_code == 200, "Status code must be 200."
             sys.exit(1)
-        sleep(11)
+        # sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
             id = i,
@@ -101,8 +103,8 @@ def main():
             topics = get_topics(content),
             abstract = get_abstract(content)
         )
+        print(paper)
         df = pd.DataFrame([paper])
-        df.fillna('')
         try:
             df.to_sql('paper', con=ENGINE, if_exists='append', index=False)
         except exc.IntegrityError:
