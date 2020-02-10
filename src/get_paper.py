@@ -70,12 +70,12 @@ def main():
             except Exception as error:
                 print(error)
                 attempt += 1
-                # sleep(11)
+                sleep(11)
         status_code = response.status_code
         if status_code != 200:
             assert status_code == 200, "Status code must be 200."
             sys.exit(1)
-        # sleep(11)
+        sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
             citation_title = get_citation_item(content, 'citation_title'),
