@@ -1,7 +1,7 @@
 CREATE TABLE paper (
     id SERIAL PRIMARY KEY,
     citation_title VARCHAR,
-    citation_author VARCHAR,
+    citation_author VARCHAR[],
     citation_date DATE,
     citation_publication_date DATE,
     citation_technical_report_institution VARCHAR,

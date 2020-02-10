@@ -14,6 +14,12 @@ def get_citation_item(content, item):
 
     return item
 
+def get_citation_author(content):
+    author = content.find_all('meta', {'name': 'citation_author'})
+    author = [x.get('content') for x in author]
+
+    return author
+
 def get_topics(content):
     bibtop = content.find('p', {'class': 'bibtop'})
     topics = bibtop.find_all('a')
@@ -58,8 +64,7 @@ def get_paper(
     return paper
 
 def main():
-
-    i = 0
+    i = int(input("Input initial ID: "))
     while i >= 0:
         url = 'https://www.nber.org/papers/w' + str(i)
         attempt = 0
@@ -79,7 +84,7 @@ def main():
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
             citation_title = get_citation_item(content, 'citation_title'),
-            citation_author = get_citation_item(content, 'citation_author'),
+            citation_author = get_citation_author(content),
             citation_date = get_citation_item(content, 'citation_date'),
             citation_publication_date = get_citation_item(content, 'citation_publication_date'),
             citation_technical_report_institution = get_citation_item(content, 'citation_technical_report_institution'),
@@ -99,7 +104,8 @@ def main():
         i += 1
 
 if __name__ == '__main__':
-    ENGINE = create_engine('postgresql://localhost:5432/postgres')
+    PASSWORD = input("Your PostgreSQL password: ")
+    ENGINE = create_engine(f'postgresql://postgres:{PASSWORD}@localhost:5432/postgres')
     CONNECTION = ENGINE.connect()
     CONNECTION.execute("ALTER SEQUENCE paper_id_seq RESTART WITH 1")
     main()
