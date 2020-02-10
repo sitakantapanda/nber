@@ -39,3 +39,19 @@ SELECT
 	'Total numbers of papers on NBER: ' AS description,
 	COUNT(*)
 FROM paper;
+
+SELECT topics, COUNT(*)
+FROM (
+	SELECT UNNEST(topics) AS topics
+	FROM paper
+) AS paper
+WHERE topics != ''
+GROUP BY topics
+ORDER BY topics ASC;
+
+SELECT * 
+FROM (
+	SELECT citation_date, citation_title, abstract, UNNEST(topics) topics
+	FROM paper
+) AS paper
+WHERE topics = 'Economics of Education Program';
