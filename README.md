@@ -101,6 +101,8 @@ Then input your password when it prompts something like this:
 Password for user postgres: 
 ```
 
+However, it may be different if you have different configurations.
+
 To create table, run the SQL query in `util/get_paper.sql`
 
 # Run
@@ -114,7 +116,11 @@ python3 src/get_paper.py
 It will prompt you two questions:
 
 ```
+Your PostgreSQL username: [YOUR POSTGRESQL USERNAME]
 Your PostgreSQL password: [YOUR POSTGRESQL PASSWORD]
+Your PostgreSQL host: [YOUR POSTGRESQL HOST]
+Your PostgreSQL port: [YOUR POSTGRESQL PORT]
+Your PostgreSQL database: [YOUR POSTGRESQL DATABASE]
 Input initial ID: [PRESS 0 IF YOU WANT TO START FROM https://www.nber.org/papers/w0000] 
 ```
 
