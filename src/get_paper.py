@@ -35,6 +35,7 @@ def get_abstract(content):
     return abstract
 
 def get_paper(
+    id,
     citation_title,
     citation_author,
     citation_date,
@@ -48,6 +49,7 @@ def get_paper(
     abstract
 ):
     paper = {
+        'id': id,
         'citation_title': citation_title,
         'citation_author': citation_author,
         'citation_date': citation_date,
@@ -65,12 +67,15 @@ def get_paper(
 
 def main():
     i = int(input("Input initial ID: "))
+    print(i)
     while i >= 0:
         url = 'https://www.nber.org/papers/w' + str(i)
+        print(url)
         attempt = 0
         while attempt < 5:
             try:
                 response = requests.get(url, timeout=None)
+                print(response)
                 attempt = 5
             except Exception as error:
                 print(error)
@@ -83,6 +88,7 @@ def main():
         sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
+            id = i,
             citation_title = get_citation_item(content, 'citation_title'),
             citation_author = get_citation_author(content),
             citation_date = get_citation_item(content, 'citation_date'),
@@ -107,6 +113,5 @@ if __name__ == '__main__':
     PASSWORD = input("Your PostgreSQL password: ")
     ENGINE = create_engine(f'postgresql://postgres:{PASSWORD}@localhost:5432/postgres')
     CONNECTION = ENGINE.connect()
-    CONNECTION.execute("ALTER SEQUENCE paper_id_seq RESTART WITH 1")
     main()
     CONNECTION.close()
