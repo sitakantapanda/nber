@@ -1,13 +1,14 @@
 import sqlalchemy
 
-engine = sqlalchemy.create_engine('postgresql://localhost:5432/postgres')
-connection = engine.connect()
+PASSWORD = input("Your PostgreSQL password: ")
+ENGINE = sqlalchemy.create_engine(f'postgresql://postgres:{PASSWORD}@localhost:5432/postgres')
+CONNECTION = ENGINE.connect()
 
 class TestPaper:
 
     def test_connect(self):
-        assert connection.closed == False
+        assert CONNECTION.closed == False
 
     def test_closed(self):
-        connection.close()
-        assert connection.closed == True
+        CONNECTION.close()
+        assert CONNECTION.closed == True

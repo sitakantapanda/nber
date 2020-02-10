@@ -121,7 +121,13 @@ Input initial ID: [PRESS 0 IF YOU WANT TO START FROM https://www.nber.org/papers
 Run unit tests to ensure the data quality is good.
 
 ```
-pytest test
+pytest test -s
+```
+
+It then will prompt you to input your PostgreSQL password:
+
+```
+collecting ... Your PostgreSQL password: 
 ```
 
 # Columns
