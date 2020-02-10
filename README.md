@@ -93,7 +93,28 @@ Connect to localhost:
 psql -h localhost -p 5432 -d postgres
 ```
 
+Then input your password when it prompts something like this:
+
+```
+Password for user postgres: 
+```
+
 To create table, run the SQL query in `util/get_paper.sql`
+
+# Run
+
+Run the Python script on terminal:
+
+```
+python3 src/get_paper.py
+```
+
+It will prompt you two questions:
+
+```
+Your PostgreSQL password: [YOUR POSTGRESQL PASSWORD]
+Input initial ID: [PRESS 0 IF YOU WANT TO START FROM https://www.nber.org/papers/w0000] 
+```
 
 # Test
 
@@ -102,6 +123,23 @@ Run unit tests to ensure the data quality is good.
 ```
 pytest test
 ```
+
+# Columns
+
+|column_name|data_type|description|
+|-|-|-|
+|id|int4|A unique ID for each paper|
+|citation_title|varchar|Paper title|
+|citation_author|varchar|Paper author(s). Can be more than one. Hence it is stored as an array|
+|citation_date|date|Date of paper (not clear)|
+|citation_publication_date|date|Date of paper being published|
+|citation_technical_report_institution|varchar|Institution which publishes the report|
+|citation_technical_report_number|varchar|Paper ID as in the website|
+|citation_journal_title|varchar|Journal title|
+|citation_journal_issn|varchar|ISSN number|
+|citation_pdf_url|varchar|Paper URL for PDF version|
+|topics|varchar|Paper topic(s). Can be more tan one. Hence it is stored as an array|
+|abstract|varchar|Paper abstract|
 
 # Explore
 
