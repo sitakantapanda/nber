@@ -13,6 +13,29 @@ GROUP BY published_year, topics
 ORDER BY published_year DESC
 LIMIT 5;
 
-SELECT abstract
+SELECT
+    citation_title,
+    abstract
 FROM paper
-WHERE LOWER(abstract) ILIKE '%poverty%';
+WHERE 
+    LOWER(abstract) ILIKE '%indonesia%'
+    OR LOWER(citation_title) ILIKE '%indonesia%';
+
+SELECT 
+	DATE_PART('YEAR', citation_date) citation_year,
+	COUNT(*)
+FROM paper
+GROUP BY citation_year
+ORDER BY citation_year ASC
+LIMIT 10;
+
+SELECT 
+	'Numbers of papers on NBER where the abstract starts with "This paper": ' AS description,
+	COUNT(*)
+FROM paper
+WHERE abstract ILIKE 'this paper%'
+UNION ALL 
+SELECT
+	'Total numbers of papers on NBER: ' AS description,
+	COUNT(*)
+FROM paper;
