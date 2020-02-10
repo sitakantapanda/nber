@@ -81,25 +81,22 @@ def get_paper(
 
 def main():
     i = int(input("Input initial ID: "))
-    print(i)
     while i >= 0:
         url = 'https://www.nber.org/papers/w' + str(i)
-        print(url)
         attempt = 0
         while attempt < 5:
             try:
                 response = requests.get(url, timeout=None)
-                print(response)
                 attempt = 5
             except Exception as error:
                 print(error)
                 attempt += 1
-                # sleep(11)
+                sleep(11)
         status_code = response.status_code
         if status_code != 200:
             assert status_code == 200, "Status code must be 200."
             sys.exit(1)
-        # sleep(11)
+        sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
             id = i,
