@@ -121,8 +121,12 @@ def main():
         i += 1
 
 if __name__ == '__main__':
+    USER = input("Your PostgreSQL username: ")
     PASSWORD = input("Your PostgreSQL password: ")
-    ENGINE = create_engine(f'postgresql://postgres:{PASSWORD}@localhost:5432/postgres')
+    HOST = input("Your PostgreSQL host: ")
+    PORT = input("Your PostgreSQL port: ")
+    DATABASE = input("Your PostgreSQL database: ")
+    ENGINE = create_engine(f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
     CONNECTION = ENGINE.connect()
     main()
     CONNECTION.close()
