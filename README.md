@@ -1,6 +1,6 @@
 # About
 
-Hello world :earth_asia:! Are you an economist, or economics student, or just some random person like me who is interested in economics? Do you want to write paper, thesis, or just ramble on some stuffs but don't have any fresh ideas what should be the topics? Worry no more! Because, this repository is for you!
+Hello world :earth_asia:! Are you an economist, or economics student, or just some random person like me who is interested in economics? Do you want to write paper, thesis, or just ramble on some stuffs but don't have any fresh ideas on what should be the topic? Worry no more! Because, this repository is for you!
 
 Before jumping in, consider this:
 
