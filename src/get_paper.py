@@ -5,6 +5,16 @@ from bs4 import BeautifulSoup
 from sqlalchemy import create_engine, exc
 from time import sleep
 
+def get_latest_paper():
+    url = 'https://data.nber.org/new.html#latest'
+    response = requests.get(url)
+    content = BeautifulSoup(response.content, features='html.parser')
+    latest = content.find('li', {'class': 'multiline-li'})
+    latest = latest.find('a').attrs['href']
+    latest = int(latest.replace('https://data.nber.org/papers/w', ''))
+
+    return latest
+
 def get_citation_item(content, item):
     item = content.find('meta', {'name': f'{item}'})
     try:
@@ -21,17 +31,23 @@ def get_citation_author(content):
     return author
 
 def get_topics(content):
-    bibtop = content.find('p', {'class': 'bibtop'})
-    topics = bibtop.find_all('a')
-    topics = [x.get_text() for x in topics]
+    try:
+        bibtop = content.find('p', {'class': 'bibtop'})
+        topics = bibtop.find_all('a')
+        topics = [x.get_text() for x in topics]
+    except AttributeError:
+        topics = None
 
     return topics
     
 def get_abstract(content):
-    abstract = content.find('p', {'style': 'margin-left: 40px; margin-right: 40px; text-align: justify'})
-    abstract = abstract.contents[0].replace('\n', '')
-    if '\x00' in abstract:
-        abstract = abstract.replace('\x00', '')
+    try:
+        abstract = content.find('p', {'style': 'margin-left: 40px; margin-right: 40px; text-align: justify'})
+        abstract = abstract.contents[0].replace('\n', '')
+        if '\x00' in abstract:
+            abstract = abstract.replace('\x00', '')
+    except AttributeError:
+        abstract = None
 
     return abstract
 
@@ -81,7 +97,8 @@ def get_paper(
 
 def main():
     i = int(input("Input initial ID: "))
-    while i >= 0:
+    latest_paper = get_latest_paper()
+    while i <= latest_paper:
         url = 'https://www.nber.org/papers/w' + str(i)
         attempt = 0
         while attempt < 5:
@@ -92,10 +109,6 @@ def main():
                 print(error)
                 attempt += 1
                 sleep(11)
-        status_code = response.status_code
-        if status_code != 200:
-            assert status_code == 200, "Status code must be 200."
-            sys.exit(1)
         sleep(11)
         content = BeautifulSoup(response.content, features='html.parser')
         paper = get_paper(
