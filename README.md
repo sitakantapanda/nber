@@ -1,6 +1,6 @@
 # About
 
-Hello world :earth_asia:! Are you an economist, or economics student, or just some random person like me who is interested in economics? Do you want to write paper, thesis, or just ramble on some stuffs but don't have any fresh ideas on what should be the topic? Worry no more! Because, this repository is for you!
+Hello world :earth_asia:! Are you an economist, or economics student, or just a random person like me who is interested in economics? Do you want to write a paper, a thesis, or just ramble on some stuffs but don't have any fresh ideas on what should be the topic? Worry no more! Because, this repository is for you!
 
 Before jumping in, consider this:
 
@@ -73,12 +73,16 @@ Everybody is not disallowed to get `/papers/` tag. However, please scrape ethica
 
 # Virtual environment
 
+It's not an obligation to use a virtual environment, but using it is better (I think) for a good reason. This project has dependencies on third-party modules such as `pandas`, `requests`. Some of these modules may be updated and have consequences to the project. Or maybe you have another project with the same modules but different versions. Using virtual environment will tackle all of the issues. Just run the following on terminal:
+
 ```
 python3 -m venv .venv-nber
 source .venv-nber/bin/activate
 ```
 
 # Install requirements
+
+As mentioned above, this project depends on third-party modules. Run the following on terminal to install them on your machine:
 
 ```
 pip3 install --upgrade pip
@@ -113,7 +117,7 @@ Run the Python script on terminal:
 python3 src/get_paper.py
 ```
 
-It will prompt you two questions:
+It will prompt you questions:
 
 ```
 Your PostgreSQL username: [YOUR POSTGRESQL USERNAME]
@@ -161,33 +165,44 @@ collecting ... Your PostgreSQL password:
 Play around with the SQL queries inside `util/explore.sql`, for example:
 
 ```
-SELECT
-    published_year, 
-    topics, 
-    COUNT(*)
+SELECT topics, COUNT(*)
 FROM (
-	SELECT 
-        DATE_PART('YEAR', citation_date) AS published_year, 
-        UNNEST(topics) AS topics
+	SELECT UNNEST(topics) AS topics
 	FROM paper
 ) AS paper
 WHERE topics != ''
-GROUP BY published_year, topics
-ORDER BY published_year ASC;
+GROUP BY topics
+ORDER BY topics ASC;
 ```
 
 ...and the output will be:
 
 
 ```
-published_year |           topics           | count 
-----------------+----------------------------+-------
-           1981 | Monetary Economics Program |     1
-           1981 | Program on Children        |     1
-           1981 | Public Economics Program   |     1
-           1980 | Public Economics Program   |     7
-           1980 | Health Economics Program   |     1
-(5 rows)
+                         topics                         | count 
+--------------------------------------------------------+-------
+ Asset Pricing Program                                  |  2417
+ Corporate Finance Program                              |  2049
+ Development Economics Program                          |  1017
+ Economic Fluctuations and Growth Program               |  5218
+ Economics of Education Program                         |  1429
+ Environment and Energy Program                         |  1101
+ Health Care Program                                    |  1472
+ Health Economics Program                               |  2067
+ Industrial Organization Program                        |  1538
+ International Finance and Macroeconomics Program       |  3841
+ International Trade and Investment Program             |  3323
+ Labor Studies Program                                  |  5288
+ Law and Economics Program                              |  1030
+ Monetary Economics Program                             |  3004
+ Political Economy Program                              |  1138
+ Productivity, Innovation, and Entrepreneurship Program |  2191
+ Program on Children                                    |  1522
+ Program on the Development of the American Economy     |  1410
+ Program on the Economics of Aging                      |  1505
+ Public Economics Program                               |  5273
+ Technical Working Papers                               |   246
+(21 rows)
 ```
 
 # Contribute
